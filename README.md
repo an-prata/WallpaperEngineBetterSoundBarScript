@@ -1,6 +1,8 @@
 # WallpaperEngineBetterSoundBarScript
  A script that makes a better looking sound visualizer!
 
+![Bar](https://github.com/an-prata/WallpaperEngineBetterSoundBarScript/blob/main/Bar.png?raw=true)
+
  I use this script in my wallpaper here: https://steamcommunity.com/sharedfiles/filedetails/?id=2606548833
 
  To use the script yourself just import Texture.png, or any white 4x4 image, into Wallpaper Engine as an image asset. Select your new image asset and at the top right of the properties pane hit the settings button, then bind script. This will open an editor, just paste the content from BetterSoundBar.js into it. Your done!
