@@ -1,52 +1,62 @@
 'use strict';
- 
+
 var bars = [];
 var baseOrigin;
-var baseAngle;
-let audioData = engine.registerAudioBuffers(64);
- 
-let amp = 450;
-let addin = 60;
+
+let amp = 450;				// The m value in f(x) = m∛(x + a) - m∛a.
+let addin = 60;				// The a value in f(x) = m∛(x + a) - m∛a.
 let cutoff = Math.pow(addin, 0.333) * (amp);
-/**
- * @param {Boolean} value (for property 'visible')
- */
-export function update() {
+
+let barWidth = 1;			// The width of each bar.
+let horizontalSpacing = 14;	// Space between bars horizontaly, set to zero for a vertical bar.
+let verticalSpacing = 0;	// Space between bars verticaly, set to zero for a horizontal bar.
+let barAngle = 0;			// Angle of the bars, set to 0 for horizontal bars, and 90 for vertical ones.
+
+let barsAmount = 64;		// The number of bars in your visualizer, only 16, 32, and 64 are valid numbers.
+let audioData = engine.registerAudioBuffers(barsAmount);
+
+export function update() 
+{
 	var origin = baseOrigin.copy();
-	var scale = new Vec3(1);/* edit this value for bar width, for horizontal 6 for vertical 3*/
+	var scale = new Vec3(barWidth);
  
-	for (var i = 0; i < 64; ++i) {
-		let amt = audioData.average[i] + addin;
+	for (var i = 0; i < barsAmount; ++i) 
+	{
+		let amt = audioData.average[i] + addin; 
+		// You can change ausioData.average[i] to ausioData.right[i] or ausioData.left[i]
+		// to get the right and left stereo channels respectively.
 		let bar = bars[i];
+
 		scale.y = (Math.pow(amt, 0.333) * amp) - cutoff;
+
 		if (scale.y < 1) scale.y = 0.8;
-		origin.x += 14;/*edit this value for horizontal bar spacing, for horizontal bar 30 for vertical 0*/
-		origin.y += 0; /*edit this value for Vertical bar spacing, for Vertical bar 17 for horizontal 0 */
+
+		origin.x += horizontalSpacing;
+		origin.y += verticalSpacing;
+
 		bar.scale = scale;
 		bar.origin = origin;
 	}
 }
  
-/**
- * @param {Boolean} value (for property 'visible')
- */
-export function init() {
+export function init() 
+{
 	bars.push(thisLayer);
-    let thisIndex = thisScene.getLayerIndex(thisLayer);
-    for (var i = 1; i < 64; ++i) {
-        let newBar = thisScene.createLayer('models/bar.json');
-        thisScene.sortLayer(newBar, thisIndex);
+	let thisIndex = thisScene.getLayerIndex(thisLayer);
+
+	for (var i = 1; i < barsAmount; ++i) 
+	{
+		let newBar = thisScene.createLayer('models/bar.json');
+		thisScene.sortLayer(newBar, thisIndex);
 		newBar.parallaxDepth = new Vec2(0,0);
-        bars.push(newBar);
-    }
- 
-	for (var i = 0; i < 64; ++i) {
-		let angle = 360 * (i / 64);
-		let bar = bars[i];
-		bar.angles = new Vec3(0, 0, 0); /* this controls bar rotation, the 3rd value is the rotation to change, for horizontal bar 0 for vertical 90*/
- 
- 
+		bars.push(newBar);
 	}
-	baseOrigin = thisLayer.origin;
  
+	for (var i = 0; i < barsAmount; ++i) 
+	{
+		let bar = bars[i];
+		bar.angles = new Vec3(0, barAngle, 0);
+	}
+
+	baseOrigin = thisLayer.origin;
 }
