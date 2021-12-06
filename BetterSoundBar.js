@@ -7,7 +7,7 @@ let amp = 450;				// The m value in f(x) = m∛(x + a) - m∛a.
 let addin = 60;				// The a value in f(x) = m∛(x + a) - m∛a.
 let cutoff = Math.cbrt(addin) * (amp);
 
-let barWidth = 1;			// The width of each bar.
+let barWidth = 0.8;			// The width of each bar.
 let horizontalSpacing = 14;	// Space between bars horizontaly, set to zero for a vertical bar.
 let verticalSpacing = 0;	// Space between bars verticaly, set to zero for a horizontal bar.
 let barAngle = 0;			// Angle of the bars, set to 0 for horizontal bars, and 90 for vertical ones.
@@ -23,7 +23,7 @@ export function update()
 	for (var i = 0; i < barsAmount; ++i) 
 	{
 		let amt = audioData.average[i] + addin; 
-		// You can change ausioData.average[i] to ausioData.right[i] or ausioData.left[i]
+		// You can change audioData.average[i] to audioData.right[i] or audioData.left[i]
 		// to get the right and left stereo channels respectively.
 		let bar = bars[i];
 
