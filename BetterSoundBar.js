@@ -5,7 +5,7 @@ var baseOrigin;
 
 let amp = 450;				// The m value in f(x) = m∛(x + a) - m∛a.
 let addin = 60;				// The a value in f(x) = m∛(x + a) - m∛a.
-let cutoff = Math.pow(addin, 0.333) * (amp);
+let cutoff = Math.cbrt(addin) * (amp);
 
 let barWidth = 1;			// The width of each bar.
 let horizontalSpacing = 14;	// Space between bars horizontaly, set to zero for a vertical bar.
@@ -27,7 +27,7 @@ export function update()
 		// to get the right and left stereo channels respectively.
 		let bar = bars[i];
 
-		scale.y = (Math.pow(amt, 0.333) * amp) - cutoff;
+		scale.y = (Math.cbrt(amt) * amp) - cutoff;
 
 		if (scale.y < 1) scale.y = 0.8;
 
